@@ -1,12 +1,17 @@
 #!/bin/bash
-
+apt-get install software-properties-common
+add-apt-repository ppa:ubuntu-toolchain-r/test
 apt-get update
+apt-get install gcc-5 g++-5
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
 apt-get -y install libmicrohttpd-dev libssl-dev cmake build-essential libhwloc-dev
 git clone https://github.com/fireice-uk/xmr-stak.git
 mkdir xmr-stak/build
 cd xmr-stak/build
 cmake -DCUDA_ENABLE=OFF -DOpenCL_ENABLE=OFF ..
 make install
-cd ~/xmr-stak/build/bin
+sudo sysctl -w vm.nr_hugepages=128
+cd xmr-stak/build/bin
 wget https://raw.githubusercontent.com/Incrades/Incrades/master/config.txt
-screen ./xmr-stak
+screen
+./xmr-stak
